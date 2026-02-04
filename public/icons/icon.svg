@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="64" fill="#0f172a"/>
+  <circle cx="256" cy="200" r="80" fill="#fbbf24"/>
+  <path d="M160 320 Q180 280 220 290 Q240 250 280 270 Q310 240 350 280 Q380 260 400 300 Q420 290 440 320 L440 380 Q420 400 400 380 Q380 400 350 370 Q310 400 280 370 Q240 400 220 380 Q180 400 160 370 Z" fill="#94a3b8"/>
+  <text x="256" y="460" font-family="system-ui" font-size="48" font-weight="bold" fill="white" text-anchor="middle">meteo</text>
+</svg>

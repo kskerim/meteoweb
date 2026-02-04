@@ -1,65 +1,187 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+// page d'accueil avec recherche et geolocalisation
+
+import { useState } from "react";
+import { MapPin, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import {
+  Header,
+  SearchBar,
+  StaticBackground,
+  CurrentWeatherCard,
+  HourlyForecastCard,
+  DailyForecastCard,
+  FavoriteButton,
+  CurrentWeatherSkeleton,
+  HourlyForecastSkeleton,
+  DailyForecastSkeleton,
+  DynamicBackground,
+} from "@/components";
+import { getWeatherCondition } from "@/lib/utils";
+import type { WeatherData } from "@/types";
+
+export default function HomePage() {
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleGeolocation = () => {
+    if (!navigator.geolocation) {
+      setError("La geolocalisation n'est pas supportee par votre navigateur");
+      return;
+    }
+
+    setGeoLoading(true);
+    setError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        try {
+          const params = new URLSearchParams({
+            lat: latitude.toString(),
+            lon: longitude.toString(),
+            name: "Ma position",
+            country: "",
+          });
+
+          setWeatherLoading(true);
+          const response = await fetch(`/api/weather?${params}`);
+          if (!response.ok) throw new Error();
+
+          const data = await response.json();
+          setWeather(data);
+        } catch {
+          setError("Impossible de charger les donnees meteo");
+        } finally {
+          setWeatherLoading(false);
+        }
+
+        setGeoLoading(false);
+      },
+      (err) => {
+        setGeoLoading(false);
+        switch (err.code) {
+          case err.PERMISSION_DENIED:
+            setError("Vous avez refuse l'acces a votre position");
+            break;
+          case err.POSITION_UNAVAILABLE:
+            setError("Position indisponible");
+            break;
+          case err.TIMEOUT:
+            setError("Delai d'attente depasse");
+            break;
+          default:
+            setError("Erreur de geolocalisation");
+        }
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    );
+  };
+
+  const content = (
+    <>
+      <Header />
+
+      <main className="container mx-auto px-4 py-8">
+        {/* hero section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+            Meteo en temps reel
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Recherchez une ville ou utilisez votre position pour obtenir les previsions meteo
+            detaillees
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+            <SearchBar className="w-full sm:flex-1" autoFocus />
+
+            <Button
+              variant="outline"
+              onClick={handleGeolocation}
+              disabled={geoLoading}
+              className="w-full sm:w-auto gap-2"
+            >
+              {geoLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <MapPin className="h-4 w-4" />
+              )}
+              Ma position
+            </Button>
+          </div>
+
+          {error && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-4 text-destructive text-sm"
+            >
+              {error}
+            </motion.p>
+          )}
+        </motion.div>
+
+        {/* weather display */}
+        {(weatherLoading || weather) && (
+          <div className="space-y-6 max-w-4xl mx-auto">
+            {weatherLoading ? (
+              <>
+                <CurrentWeatherSkeleton />
+                <HourlyForecastSkeleton />
+                <DailyForecastSkeleton />
+              </>
+            ) : weather ? (
+              <>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Votre position</h2>
+                  <FavoriteButton
+                    name={weather.location.name}
+                    country={weather.location.country}
+                    latitude={weather.location.latitude}
+                    longitude={weather.location.longitude}
+                  />
+                </div>
+
+                <CurrentWeatherCard
+                  current={weather.current}
+                  locationName={weather.location.name}
+                  country={weather.location.country}
+                  today={weather.daily[0]}
+                  timezone={weather.timezone}
+                />
+
+                <HourlyForecastCard hourly={weather.hourly} timezone={weather.timezone} />
+
+                <DailyForecastCard daily={weather.daily} timezone={weather.timezone} />
+              </>
+            ) : null}
+          </div>
+        )}
       </main>
-    </div>
+    </>
   );
+
+  if (weather) {
+    return (
+      <DynamicBackground
+        condition={getWeatherCondition(weather.current.weatherCode)}
+        isDay={weather.current.isDay}
+      >
+        {content}
+      </DynamicBackground>
+    );
+  }
+
+  return <StaticBackground>{content}</StaticBackground>;
 }
