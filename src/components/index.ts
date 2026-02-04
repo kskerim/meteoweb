@@ -10,7 +10,6 @@ export { HourlyForecastCard } from "./hourly-forecast-card";
 export { FavoriteButton } from "./favorite-button";
 export { FavoriteCard } from "./favorite-card";
 export { UnitToggle } from "./unit-toggle";
-export { ThemeToggle } from "./theme-toggle";
 export { Header } from "./header";
 export { DynamicBackground, StaticBackground } from "./dynamic-background";
 export {

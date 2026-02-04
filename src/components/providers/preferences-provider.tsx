@@ -17,30 +17,21 @@ const DEFAULT_PREFERENCES: UserPreferences = {
   temperatureUnit: "celsius",
   windSpeedUnit: "kmh",
   timeFormat: "24h",
-  theme: "system",
+  theme: "dark",
 };
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
-  const [preferences, setPreferencesState] = useState<UserPreferences>(() => {
-    if (typeof window === "undefined") return DEFAULT_PREFERENCES;
-    return getPreferences();
-  });
-  const mounted = typeof window !== "undefined";
+  const [preferences, setPreferencesState] = useState<UserPreferences>(DEFAULT_PREFERENCES);
 
   useEffect(() => {
-    if (!mounted) return;
+    // charger les preferences depuis le storage cote client
+    const saved = getPreferences();
+    setPreferencesState({ ...saved, theme: "dark" });
 
-    // appliquer le theme
-    const root = document.documentElement;
-    root.classList.remove("light", "dark");
-
-    if (preferences.theme === "system") {
-      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      root.classList.add(systemDark ? "dark" : "light");
-    } else {
-      root.classList.add(preferences.theme);
-    }
-  }, [preferences.theme, mounted]);
+    // toujours forcer le mode sombre
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+  }, []);
 
   const updatePreferences = (prefs: Partial<UserPreferences>) => {
     const updated = savePreferences(prefs);

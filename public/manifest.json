@@ -1,6 +1,6 @@
 {
-  "name": "meteo-aura",
-  "short_name": "meteo-aura",
+  "name": "Meteo Web",
+  "short_name": "Meteo Web",
   "description": "Application meteo complete avec previsions horaires, journalieres et graphiques interactifs",
   "start_url": "/",
   "display": "standalone",

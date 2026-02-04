@@ -16,26 +16,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "meteo-aura - Meteo en temps reel",
-    template: "%s | meteo-aura",
+    default: "Meteo Web - Meteo en temps reel",
+    template: "%s | Meteo Web",
   },
   description:
     "Application meteo complete avec previsions horaires, journalieres et graphiques interactifs. Utilise Open-Meteo API.",
   keywords: ["meteo", "weather", "previsions", "forecast", "temperature", "open-meteo"],
-  authors: [{ name: "meteo-aura" }],
+  authors: [{ name: "Meteo Web" }],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "meteo-aura",
+    title: "Meteo Web",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
-  ],
+  themeColor: "#0f172a",
   width: "device-width",
   initialScale: 1,
 };
@@ -46,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

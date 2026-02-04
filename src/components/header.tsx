@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CloudSun, Heart, Info, Home } from "lucide-react";
 import { motion } from "framer-motion";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { UnitToggle } from "@/components/unit-toggle";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +30,7 @@ export function Header() {
           {/* logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <CloudSun className="h-6 w-6 text-primary transition-transform group-hover:scale-110" />
-            <span className="font-bold text-xl tracking-tight">meteo-aura</span>
+            <span className="font-bold text-xl tracking-tight">Meteo Web</span>
           </Link>
 
           {/* navigation */}
@@ -59,7 +58,6 @@ export function Header() {
           {/* actions */}
           <div className="flex items-center gap-2">
             <UnitToggle />
-            <ThemeToggle />
           </div>
         </div>
 
