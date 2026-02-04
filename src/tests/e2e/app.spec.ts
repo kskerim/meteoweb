@@ -9,28 +9,30 @@ test.describe("meteo-aura e2e", () => {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify([
-          {
-            id: 1,
-            name: "Paris",
-            latitude: 48.8566,
-            longitude: 2.3522,
-            country: "France",
-            countryCode: "FR",
-            region: "Île-de-France",
-            timezone: "Europe/Paris",
-          },
-          {
-            id: 2,
-            name: "Lyon",
-            latitude: 45.75,
-            longitude: 4.85,
-            country: "France",
-            countryCode: "FR",
-            region: "Auvergne-Rhône-Alpes",
-            timezone: "Europe/Paris",
-          },
-        ]),
+        body: JSON.stringify({
+          results: [
+            {
+              id: 1,
+              name: "Paris",
+              latitude: 48.8566,
+              longitude: 2.3522,
+              country: "France",
+              countryCode: "FR",
+              region: "Île-de-France",
+              timezone: "Europe/Paris",
+            },
+            {
+              id: 2,
+              name: "Lyon",
+              latitude: 45.75,
+              longitude: 4.85,
+              country: "France",
+              countryCode: "FR",
+              region: "Auvergne-Rhône-Alpes",
+              timezone: "Europe/Paris",
+            },
+          ],
+        }),
       });
     });
 
@@ -40,21 +42,38 @@ test.describe("meteo-aura e2e", () => {
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
+          location: {
+            id: 1,
+            name: "Paris",
+            latitude: 48.8566,
+            longitude: 2.3522,
+            country: "France",
+            countryCode: "FR",
+            timezone: "Europe/Paris",
+          },
           current: {
             temperature: 18.5,
             feelsLike: 17.2,
             humidity: 65,
-            precipitation: 0,
-            weatherCode: 2,
             windSpeed: 12.5,
             windDirection: 220,
-            timestamp: new Date().toISOString(),
+            windGusts: 18,
+            pressure: 1013,
+            cloudCover: 50,
+            precipitation: 0,
+            weatherCode: 2,
+            isDay: true,
+            uvIndex: 3,
           },
           hourly: Array.from({ length: 24 }, (_, i) => ({
             time: new Date(Date.now() + i * 3600000).toISOString(),
             temperature: 18 + Math.random() * 5,
-            weatherCode: Math.floor(Math.random() * 3),
+            feelsLike: 17 + Math.random() * 5,
+            humidity: 60 + Math.random() * 20,
+            windSpeed: 10 + Math.random() * 10,
+            precipitation: 0,
             precipitationProbability: Math.floor(Math.random() * 30),
+            weatherCode: Math.floor(Math.random() * 3),
           })),
           daily: Array.from({ length: 7 }, (_, i) => ({
             date: new Date(Date.now() + i * 86400000).toISOString().split("T")[0],
@@ -62,7 +81,11 @@ test.describe("meteo-aura e2e", () => {
             minTemp: 12 + Math.random() * 5,
             weatherCode: Math.floor(Math.random() * 3),
             precipitationProbability: Math.floor(Math.random() * 40),
+            sunrise: "07:30",
+            sunset: "18:45",
           })),
+          timezone: "Europe/Paris",
+          timezoneAbbreviation: "CET",
         }),
       });
     });
