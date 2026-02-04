@@ -127,7 +127,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* affichage meteo si disponible */}
-        {(weatherLoading || weather) ? (
+        {weatherLoading || weather ? (
           <div className="space-y-6 max-w-4xl mx-auto mt-8">
             {weatherLoading ? (
               <>

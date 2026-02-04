@@ -4,15 +4,7 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-} from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePreferences } from "@/components/providers/preferences-provider";
 import { formatHour } from "@/lib/utils";

@@ -1,6 +1,12 @@
 // client pour l'api open-meteo
 
-import type { GeoLocation, WeatherData, CurrentWeather, HourlyForecast, DailyForecast } from "@/types";
+import type {
+  GeoLocation,
+  WeatherData,
+  CurrentWeather,
+  HourlyForecast,
+  DailyForecast,
+} from "@/types";
 
 const GEOCODING_API = "https://geocoding-api.open-meteo.com/v1/search";
 const FORECAST_API = "https://api.open-meteo.com/v1/forecast";

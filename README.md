@@ -19,18 +19,18 @@ Application meteo complete et moderne, construite avec Next.js 16 et l'API Open-
 
 ## Stack technique
 
-| Categorie | Technologies |
-|-----------|--------------|
-| Framework | Next.js 16 (App Router) |
-| UI | React 19, TypeScript |
-| Styling | Tailwind CSS v4, shadcn/ui |
-| Animations | Framer Motion |
-| Graphiques | Recharts |
-| Validation | Zod |
-| API | Open-Meteo (gratuit, sans cle API) |
-| Tests | Vitest, Testing Library, Playwright |
-| Qualite | ESLint, Prettier |
-| CI/CD | GitHub Actions |
+| Categorie  | Technologies                        |
+| ---------- | ----------------------------------- |
+| Framework  | Next.js 16 (App Router)             |
+| UI         | React 19, TypeScript                |
+| Styling    | Tailwind CSS v4, shadcn/ui          |
+| Animations | Framer Motion                       |
+| Graphiques | Recharts                            |
+| Validation | Zod                                 |
+| API        | Open-Meteo (gratuit, sans cle API)  |
+| Tests      | Vitest, Testing Library, Playwright |
+| Qualite    | ESLint, Prettier                    |
+| CI/CD      | GitHub Actions                      |
 
 ## Installation
 
@@ -50,18 +50,18 @@ L'application sera disponible sur http://localhost:3000
 
 ## Scripts disponibles
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Lance le serveur de developpement |
-| `npm run build` | Build de production |
-| `npm run start` | Lance le serveur de production |
-| `npm run lint` | Lint avec ESLint |
-| `npm run format` | Formate avec Prettier |
-| `npm run format:check` | Verifie le formatage |
-| `npm run test` | Lance les tests unitaires |
-| `npm run test:watch` | Tests en mode watch |
-| `npm run test:e2e` | Lance les tests e2e |
-| `npm run test:e2e:ui` | Tests e2e avec UI Playwright |
+| Script                 | Description                       |
+| ---------------------- | --------------------------------- |
+| `npm run dev`          | Lance le serveur de developpement |
+| `npm run build`        | Build de production               |
+| `npm run start`        | Lance le serveur de production    |
+| `npm run lint`         | Lint avec ESLint                  |
+| `npm run format`       | Formate avec Prettier             |
+| `npm run format:check` | Verifie le formatage              |
+| `npm run test`         | Lance les tests unitaires         |
+| `npm run test:watch`   | Tests en mode watch               |
+| `npm run test:e2e`     | Lance les tests e2e               |
+| `npm run test:e2e:ui`  | Tests e2e avec UI Playwright      |
 
 ## Structure du projet
 

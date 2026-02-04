@@ -23,10 +23,7 @@ export function formatTemperatureValue(
   return Math.round(celsius);
 }
 
-export function formatWindSpeed(
-  kmh: number,
-  unit: UserPreferences["windSpeedUnit"]
-): string {
+export function formatWindSpeed(kmh: number, unit: UserPreferences["windSpeedUnit"]): string {
   if (unit === "mph") {
     const mph = kmh * 0.621371;
     return `${Math.round(mph)} mph`;

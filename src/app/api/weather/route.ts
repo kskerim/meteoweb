@@ -13,20 +13,14 @@ export async function GET(request: NextRequest) {
   const country = searchParams.get("country") || "";
 
   if (!lat || !lon) {
-    return NextResponse.json(
-      { error: "latitude et longitude requises" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "latitude et longitude requises" }, { status: 400 });
   }
 
   const latitude = parseFloat(lat);
   const longitude = parseFloat(lon);
 
   if (isNaN(latitude) || isNaN(longitude)) {
-    return NextResponse.json(
-      { error: "coordonnees invalides" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "coordonnees invalides" }, { status: 400 });
   }
 
   try {

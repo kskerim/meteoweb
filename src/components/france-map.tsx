@@ -46,7 +46,7 @@ export function FranceMap() {
 
   const fetchCityWeather = async (city: CityPoint) => {
     if (cityWeather[city.name]) return;
-    
+
     setLoadingCity(city.name);
     try {
       const params = new URLSearchParams({
@@ -58,7 +58,7 @@ export function FranceMap() {
       const res = await fetch(`/api/weather?${params}`);
       if (res.ok) {
         const data = await res.json();
-        setCityWeather(prev => ({
+        setCityWeather((prev) => ({
           ...prev,
           [city.name]: {
             temp: Math.round(data.current.temperature),
@@ -105,7 +105,7 @@ export function FranceMap() {
             </feMerge>
           </filter>
         </defs>
-        
+
         {/* contour de la france */}
         <path
           d="M 50 5 
@@ -153,14 +153,16 @@ export function FranceMap() {
         >
           {/* point lumineux */}
           <div className="relative">
-            <div className={cn(
-              "w-3 h-3 rounded-full transition-all duration-300",
-              "bg-blue-400 shadow-lg shadow-blue-400/50",
-              hoveredCity === city.name && "scale-150 bg-blue-300"
-            )}>
+            <div
+              className={cn(
+                "w-3 h-3 rounded-full transition-all duration-300",
+                "bg-blue-400 shadow-lg shadow-blue-400/50",
+                hoveredCity === city.name && "scale-150 bg-blue-300"
+              )}
+            >
               <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-30" />
             </div>
-            
+
             {/* tooltip */}
             {hoveredCity === city.name && (
               <motion.div
@@ -177,7 +179,7 @@ export function FranceMap() {
                   <MapPin className="h-3 w-3 text-blue-400" />
                   {city.name}
                 </p>
-                
+
                 {loadingCity === city.name ? (
                   <div className="flex items-center gap-1 text-slate-400 text-xs mt-1">
                     <Loader2 className="h-3 w-3 animate-spin" />
@@ -196,7 +198,7 @@ export function FranceMap() {
                     Cliquer pour voir
                   </p>
                 )}
-                
+
                 {/* fleche du tooltip */}
                 <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800/95" />
               </motion.div>
@@ -207,9 +209,7 @@ export function FranceMap() {
 
       {/* legende */}
       <div className="absolute bottom-0 left-0 right-0 text-center">
-        <p className="text-slate-400 text-sm">
-          Cliquez sur une ville pour voir la meteo detaillee
-        </p>
+        <p className="text-slate-400 text-sm">Cliquez sur une ville pour voir la meteo detaillee</p>
       </div>
     </div>
   );

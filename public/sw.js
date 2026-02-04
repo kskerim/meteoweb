@@ -4,12 +4,7 @@ const CACHE_NAME = "meteo-aura-v1";
 const OFFLINE_URL = "/offline.html";
 
 // ressources a mettre en cache immediatement
-const PRECACHE_RESOURCES = [
-  "/",
-  "/favorites",
-  "/about",
-  "/offline.html",
-];
+const PRECACHE_RESOURCES = ["/", "/favorites", "/about", "/offline.html"];
 
 // installation du service worker
 self.addEventListener("install", (event) => {
@@ -26,9 +21,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
       );
     })
   );
@@ -44,10 +37,9 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url.includes("/api/")) {
     event.respondWith(
       fetch(event.request).catch(() => {
-        return new Response(
-          JSON.stringify({ error: "offline" }),
-          { headers: { "Content-Type": "application/json" } }
-        );
+        return new Response(JSON.stringify({ error: "offline" }), {
+          headers: { "Content-Type": "application/json" },
+        });
       })
     );
     return;

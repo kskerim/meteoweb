@@ -204,9 +204,9 @@ export function CurrentWeatherCard({
                   </div>
                 </div>
               </div>
-              
+
               <div className="h-8 w-px bg-slate-700" />
-              
+
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-full bg-orange-500/20">
                   <Sunset className="h-6 w-6 text-orange-400" />
@@ -251,7 +251,9 @@ function StatCard({
   };
 
   return (
-    <div className={`flex flex-col gap-2 p-4 rounded-xl bg-gradient-to-br ${colorClasses[color]} border backdrop-blur-sm`}>
+    <div
+      className={`flex flex-col gap-2 p-4 rounded-xl bg-gradient-to-br ${colorClasses[color]} border backdrop-blur-sm`}
+    >
       <div className="flex items-center gap-2">
         {icon}
         <span className="text-xs text-slate-400 uppercase tracking-wide">{label}</span>

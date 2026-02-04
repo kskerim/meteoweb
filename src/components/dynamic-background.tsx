@@ -61,10 +61,7 @@ export function DynamicBackground({ condition, isDay, children }: DynamicBackgro
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className={cn(
-          "fixed inset-0 bg-gradient-to-br transition-colors duration-1000",
-          gradient
-        )}
+        className={cn("fixed inset-0 bg-gradient-to-br transition-colors duration-1000", gradient)}
       />
 
       {/* overlay pour adoucir */}
