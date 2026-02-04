@@ -24,11 +24,17 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferencesState] = useState<UserPreferences>(DEFAULT_PREFERENCES);
 
   useEffect(() => {
-    // charger les preferences depuis le storage cote client
+    // Charger les préférences depuis le stockage côté client
     const saved = getPreferences();
-    setPreferencesState({ ...saved, theme: "dark" });
 
-    // toujours forcer le mode sombre
+    // Utiliser un timeout pour éviter les rendus en cascade
+    if (saved) {
+      setTimeout(() => {
+        setPreferencesState((prev) => ({ ...prev, ...saved }));
+      }, 0);
+    }
+
+    // Toujours forcer le mode sombre
     document.documentElement.classList.remove("light");
     document.documentElement.classList.add("dark");
   }, []);

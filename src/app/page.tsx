@@ -3,7 +3,7 @@
 // page d'accueil avec carte de france et recherche
 
 import { useState } from "react";
-import { MapPin, Loader2, Search, Sparkles } from "lucide-react";
+import { MapPin, Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
