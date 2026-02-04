@@ -4,6 +4,121 @@ import { test, expect } from "@playwright/test";
 
 test.describe("meteo-aura e2e", () => {
   test.beforeEach(async ({ page }) => {
+    // Mock geocoding API
+    await page.route("**/geocoding-api.open-meteo.com/**", async (route) => {
+      const url = route.request().url();
+      if (url.includes("name=")) {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            results: [
+              {
+                id: 1,
+                name: "Paris",
+                latitude: 48.8566,
+                longitude: 2.3522,
+                country: "France",
+                country_code: "FR",
+                admin1: "Île-de-France",
+                timezone: "Europe/Paris",
+              },
+              {
+                id: 2,
+                name: "Lyon",
+                latitude: 45.75,
+                longitude: 4.85,
+                country: "France",
+                country_code: "FR",
+                admin1: "Auvergne-Rhône-Alpes",
+                timezone: "Europe/Paris",
+              },
+              {
+                id: 3,
+                name: "Marseille",
+                latitude: 43.2965,
+                longitude: 5.3698,
+                country: "France",
+                country_code: "FR",
+                admin1: "Provence-Alpes-Côte d'Azur",
+                timezone: "Europe/Paris",
+              },
+              {
+                id: 4,
+                name: "Nice",
+                latitude: 43.7102,
+                longitude: 7.262,
+                country: "France",
+                country_code: "FR",
+                admin1: "Provence-Alpes-Côte d'Azur",
+                timezone: "Europe/Paris",
+              },
+              {
+                id: 5,
+                name: "Bordeaux",
+                latitude: 44.8378,
+                longitude: -0.5792,
+                country: "France",
+                country_code: "FR",
+                admin1: "Nouvelle-Aquitaine",
+                timezone: "Europe/Paris",
+              },
+            ],
+          }),
+        });
+      } else {
+        await route.fulfill({ status: 200, body: JSON.stringify({ results: [] }) });
+      }
+    });
+
+    // Mock weather API
+    await page.route("**/api.open-meteo.com/v1/forecast**", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          latitude: 48.8566,
+          longitude: 2.3522,
+          timezone: "Europe/Paris",
+          current: {
+            time: new Date().toISOString(),
+            temperature_2m: 18.5,
+            relative_humidity_2m: 65,
+            apparent_temperature: 17.2,
+            precipitation: 0,
+            weather_code: 2,
+            wind_speed_10m: 12.5,
+            wind_direction_10m: 220,
+          },
+          hourly: {
+            time: Array.from({ length: 24 }, (_, i) => {
+              const date = new Date();
+              date.setHours(date.getHours() + i);
+              return date.toISOString();
+            }),
+            temperature_2m: Array.from({ length: 24 }, () => 18 + Math.random() * 5),
+            weather_code: Array.from({ length: 24 }, () => Math.floor(Math.random() * 3)),
+            precipitation_probability: Array.from({ length: 24 }, () =>
+              Math.floor(Math.random() * 30)
+            ),
+          },
+          daily: {
+            time: Array.from({ length: 7 }, (_, i) => {
+              const date = new Date();
+              date.setDate(date.getDate() + i);
+              return date.toISOString().split("T")[0];
+            }),
+            temperature_2m_max: Array.from({ length: 7 }, () => 20 + Math.random() * 5),
+            temperature_2m_min: Array.from({ length: 7 }, () => 12 + Math.random() * 5),
+            weather_code: Array.from({ length: 7 }, () => Math.floor(Math.random() * 3)),
+            precipitation_probability_max: Array.from({ length: 7 }, () =>
+              Math.floor(Math.random() * 40)
+            ),
+          },
+        }),
+      });
+    });
+
     await page.goto("/");
   });
 
