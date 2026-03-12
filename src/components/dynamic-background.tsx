@@ -3,7 +3,6 @@
 // fond dynamique selon la meteo et le jour/nuit
 
 import { useMemo } from "react";
-import { motion } from "framer-motion";
 import type { WeatherCondition } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -56,16 +55,15 @@ export function DynamicBackground({ condition, isDay, children }: DynamicBackgro
 
   return (
     <div className="relative min-h-screen">
-      <motion.div
-        key={`${condition}-${isDay}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className={cn("fixed inset-0 bg-gradient-to-br transition-colors duration-1000", gradient)}
+      <div
+        className={cn(
+          "fixed inset-0 bg-gradient-to-br transition-colors duration-1000 will-change-auto",
+          gradient
+        )}
       />
 
       {/* overlay pour adoucir */}
-      <div className="fixed inset-0 bg-background/30 backdrop-blur-[1px]" />
+      <div className="fixed inset-0 bg-background/30" />
 
       {/* contenu */}
       <div className="relative z-10">{children}</div>

@@ -2,7 +2,6 @@
 
 // carte meteo actuelle - design ludique et visuel
 
-import { motion } from "framer-motion";
 import {
   Thermometer,
   Droplets,
@@ -51,12 +50,8 @@ export function CurrentWeatherCard({
   const uvInfo = formatUvIndex(current.uvIndex);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <Card className="overflow-hidden bg-gradient-to-br from-slate-900/90 via-slate-800/80 to-slate-900/90 backdrop-blur-xl border-slate-700/30 shadow-2xl">
+    <div>
+      <Card className="overflow-hidden bg-gradient-to-br from-slate-900/95 via-slate-800/90 to-slate-900/95 border-slate-700/30 shadow-2xl">
         <CardContent className="p-6 md:p-8">
           {/* header avec location */}
           <div className="flex items-start justify-between mb-6">
@@ -74,12 +69,7 @@ export function CurrentWeatherCard({
           {/* zone principale - temperature et icone */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <div className="flex items-center gap-6">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", delay: 0.2 }}
-                className="relative"
-              >
+              <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-2xl" />
                 <WeatherIcon
                   code={current.weatherCode}
@@ -87,16 +77,11 @@ export function CurrentWeatherCard({
                   size="xl"
                   className="relative text-white w-24 h-24 md:w-32 md:h-32"
                 />
-              </motion.div>
+              </div>
               <div>
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="text-7xl md:text-8xl font-extralight text-white tracking-tighter"
-                >
+                <div className="text-7xl md:text-8xl font-extralight text-white tracking-tighter">
                   {formatTemperature(current.temperature, preferences.temperatureUnit)}
-                </motion.div>
+                </div>
                 <p className="text-xl text-slate-300 mt-1">
                   {getWeatherLabel(current.weatherCode)}
                 </p>
@@ -222,7 +207,7 @@ export function CurrentWeatherCard({
           )}
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }
 
@@ -252,7 +237,7 @@ function StatCard({
 
   return (
     <div
-      className={`flex flex-col gap-2 p-4 rounded-xl bg-gradient-to-br ${colorClasses[color]} border backdrop-blur-sm`}
+      className={`flex flex-col gap-2 p-4 rounded-xl bg-gradient-to-br ${colorClasses[color]} border`}
     >
       <div className="flex items-center gap-2">
         {icon}

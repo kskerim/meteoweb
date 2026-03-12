@@ -5,7 +5,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AlertCircle, Share2 } from "lucide-react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -83,7 +82,6 @@ export default function CityPage() {
       }
     } else {
       await navigator.clipboard.writeText(url);
-      // todo: afficher un toast
     }
   };
 
@@ -103,11 +101,7 @@ export default function CityPage() {
             <DailyForecastSkeleton />
           </div>
         ) : error ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-md mx-auto"
-          >
+          <div className="max-w-md mx-auto">
             <Card className="bg-destructive/10 border-destructive/30">
               <CardContent className="p-6 flex items-center gap-4">
                 <AlertCircle className="h-8 w-8 text-destructive flex-shrink-0" />
@@ -117,15 +111,11 @@ export default function CityPage() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         ) : weather ? (
           <div className="space-y-6 max-w-4xl mx-auto">
             {/* header avec actions */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-between flex-wrap gap-4"
-            >
+            <div className="flex items-center justify-between flex-wrap gap-4">
               <h1 className="text-2xl font-bold">{name}</h1>
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={handleShare} className="gap-2">
@@ -140,7 +130,7 @@ export default function CityPage() {
                   size="sm"
                 />
               </div>
-            </motion.div>
+            </div>
 
             {/* meteo actuelle */}
             <CurrentWeatherCard

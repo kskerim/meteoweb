@@ -2,7 +2,6 @@
 
 // previsions sur 7 jours
 
-import { motion } from "framer-motion";
 import { Sunrise, Sunset, Sun, Droplets } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WeatherIcon } from "@/components/weather-icon";
@@ -19,26 +18,18 @@ export function DailyForecastCard({ daily, timezone }: DailyForecastCardProps) {
   const { preferences } = usePreferences();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.2 }}
-    >
-      <Card className="bg-gradient-to-br from-background/80 to-background/60 backdrop-blur-md border-border/30">
-        <CardHeader>
-          <CardTitle className="text-lg">Previsions 7 jours</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-0 divide-y divide-border/30">
-          {daily.map((day, index) => {
-            const uvInfo = formatUvIndex(day.uvIndexMax);
-            return (
-              <motion.div
-                key={day.date}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="py-4 first:pt-0 last:pb-0"
-              >
+    <Card className="bg-gradient-to-br from-background/80 to-background/60 border-border/30">
+      <CardHeader>
+        <CardTitle className="text-lg">Previsions 7 jours</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-0 divide-y divide-border/30">
+        {daily.map((day) => {
+          const uvInfo = formatUvIndex(day.uvIndexMax);
+          return (
+            <div
+              key={day.date}
+              className="py-4 first:pt-0 last:pb-0"
+            >
                 <div className="flex items-center justify-between gap-4">
                   {/* jour et icone */}
                   <div className="flex items-center gap-3 min-w-[140px]">
@@ -88,11 +79,10 @@ export function DailyForecastCard({ daily, timezone }: DailyForecastCardProps) {
                     </span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </CardContent>
       </Card>
-    </motion.div>
   );
 }
