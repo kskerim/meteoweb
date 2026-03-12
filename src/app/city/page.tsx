@@ -14,7 +14,6 @@ import {
   CurrentWeatherCard,
   HourlyForecastCard,
   HourlyChart,
-  PrecipitationChart,
   DailyForecastCard,
   FavoriteButton,
   CurrentWeatherSkeleton,
@@ -144,11 +143,8 @@ export default function CityPage() {
             {/* previsions horaires */}
             <HourlyForecastCard hourly={weather.hourly} timezone={weather.timezone} hours={48} />
 
-            {/* graphiques */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <HourlyChart hourly={weather.hourly} timezone={weather.timezone} hours={24} />
-              <PrecipitationChart hourly={weather.hourly} timezone={weather.timezone} hours={24} />
-            </div>
+            {/* graphique temperature */}
+            <HourlyChart hourly={weather.hourly} timezone={weather.timezone} hours={24} />
 
             {/* previsions 7 jours */}
             <DailyForecastCard daily={weather.daily} timezone={weather.timezone} />

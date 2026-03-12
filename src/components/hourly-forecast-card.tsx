@@ -23,29 +23,35 @@ export function HourlyForecastCard({ hourly, timezone, hours = 24 }: HourlyForec
   return (
     <Card className="bg-gradient-to-br from-background/80 to-background/60 border-border/30">
       <CardHeader>
-        <CardTitle className="text-lg">Previsions horaires</CardTitle>
+        <CardTitle className="text-lg">Heure par heure</CardTitle>
       </CardHeader>
       <CardContent>
         <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex gap-4 pb-4">
+          <div className="flex gap-3 pb-4">
             {displayHours.map((hour, index) => (
               <div
                 key={hour.time}
-                className="flex flex-col items-center gap-2 p-3 rounded-lg bg-muted/30 min-w-[80px]"
+                className={`flex flex-col items-center gap-2.5 px-4 py-3 rounded-xl min-w-[85px] transition-colors ${
+                  index === 0
+                    ? "bg-blue-500/15 border border-blue-500/30"
+                    : "bg-white/5 hover:bg-white/10"
+                }`}
               >
-                <span className="text-sm text-muted-foreground">
+                <span className={`text-sm font-medium ${index === 0 ? "text-blue-300" : "text-slate-400"}`}>
                   {index === 0
                     ? "Maintenant"
                     : formatHour(hour.time, preferences.timeFormat, timezone)}
                 </span>
                 <WeatherIcon code={hour.weatherCode} isDay={hour.isDay} size="md" />
-                <span className="font-medium">
+                <span className="font-semibold text-base text-white">
                   {formatTemperature(hour.temperature, preferences.temperatureUnit)}
                 </span>
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Droplets className="h-3 w-3" />
-                  <span className="text-xs">{hour.precipitationProbability}%</span>
-                </div>
+                {hour.precipitationProbability > 0 && (
+                  <div className="flex items-center gap-1 text-blue-400">
+                    <Droplets className="h-3 w-3" />
+                    <span className="text-xs font-medium">{hour.precipitationProbability}%</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

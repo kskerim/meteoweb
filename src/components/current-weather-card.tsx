@@ -6,8 +6,6 @@ import {
   Thermometer,
   Droplets,
   Wind,
-  Gauge,
-  CloudRain,
   Sun,
   Sunrise,
   Sunset,
@@ -22,9 +20,7 @@ import {
   formatTemperature,
   formatWindSpeed,
   formatWindDirection,
-  formatPressure,
   formatHumidity,
-  formatPrecipitation,
   formatUvIndex,
   formatSunTime,
   getWeatherLabel,
@@ -115,7 +111,7 @@ export function CurrentWeatherCard({
             </span>
           </div>
 
-          {/* grille de stats - style glassmorphism */}
+          {/* grille de stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             <StatCard
               icon={<Droplets className="h-5 w-5 text-blue-400" />}
@@ -131,32 +127,16 @@ export function CurrentWeatherCard({
               color="cyan"
             />
             <StatCard
-              icon={<Gauge className="h-5 w-5 text-purple-400" />}
-              label="Pression"
-              value={formatPressure(current.pressure)}
-              color="purple"
-            />
-            <StatCard
-              icon={<Eye className="h-5 w-5 text-slate-400" />}
-              label="Nuages"
-              value={`${current.cloudCover}%`}
-              color="slate"
-            />
-          </div>
-
-          {/* seconde ligne de stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            <StatCard
               icon={<Wind className="h-5 w-5 text-orange-400" />}
               label="Rafales"
               value={formatWindSpeed(current.windGusts, preferences.windSpeedUnit)}
               color="orange"
             />
             <StatCard
-              icon={<CloudRain className="h-5 w-5 text-indigo-400" />}
-              label="Precipitations"
-              value={formatPrecipitation(current.precipitation)}
-              color="indigo"
+              icon={<Eye className="h-5 w-5 text-slate-400" />}
+              label="Nuages"
+              value={`${current.cloudCover}%`}
+              color="slate"
             />
             <StatCard
               icon={<Sun className="h-5 w-5 text-yellow-400" />}
@@ -165,14 +145,6 @@ export function CurrentWeatherCard({
               subValue={uvInfo.level}
               color="yellow"
             />
-            {today && (
-              <StatCard
-                icon={<Thermometer className="h-5 w-5 text-pink-400" />}
-                label="Amplitude"
-                value={`${Math.round(today.tempMax - today.tempMin)}°`}
-                color="pink"
-              />
-            )}
           </div>
 
           {/* lever/coucher du soleil - design ameliore */}
