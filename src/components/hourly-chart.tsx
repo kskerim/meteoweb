@@ -47,8 +47,12 @@ export function HourlyChart({ hourly, timezone, hours = 24 }: HourlyChartProps) 
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl">temperature sur 24h</CardTitle>
           <div className="flex items-center gap-4 text-sm">
-            <span className="text-blue-400 font-medium">{minTemp}°{unit} min</span>
-            <span className="text-orange-400 font-medium">{maxTemp}°{unit} max</span>
+            <span className="text-blue-400 font-medium">
+              {minTemp}°{unit} min
+            </span>
+            <span className="text-orange-400 font-medium">
+              {maxTemp}°{unit} max
+            </span>
           </div>
         </div>
       </CardHeader>

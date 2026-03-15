@@ -39,7 +39,9 @@ export function HourlyForecastCard({ hourly, timezone, hours = 24 }: HourlyForec
                 }`}
               >
                 {/* heure ou "maintenant" pour l'heure actuelle */}
-                <span className={`text-sm font-medium ${index === 0 ? "text-blue-300" : "text-slate-400"}`}>
+                <span
+                  className={`text-sm font-medium ${index === 0 ? "text-blue-300" : "text-slate-400"}`}
+                >
                   {index === 0
                     ? "maintenant"
                     : formatHour(hour.time, preferences.timeFormat, timezone)}

@@ -110,11 +110,7 @@ export default function HomePage() {
             </Button>
           </div>
 
-          {error && (
-            <p className="mt-3 text-destructive text-sm text-center">
-              {error}
-            </p>
-          )}
+          {error && <p className="mt-3 text-destructive text-sm text-center">{error}</p>}
         </div>
 
         {/* affichage meteo si disponible */}

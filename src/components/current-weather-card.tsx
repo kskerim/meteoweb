@@ -164,7 +164,8 @@ export function CurrentWeatherCard({
                 <div>
                   <div className="text-xs text-slate-400 uppercase tracking-wide">UV</div>
                   <div className="text-lg font-semibold text-yellow-300">
-                    {uvInfo.value} <span className="text-sm font-normal text-slate-400">{uvInfo.level}</span>
+                    {uvInfo.value}{" "}
+                    <span className="text-sm font-normal text-slate-400">{uvInfo.level}</span>
                   </div>
                 </div>
               </div>

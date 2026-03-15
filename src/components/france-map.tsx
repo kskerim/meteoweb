@@ -68,85 +68,234 @@ function geoToPath(coords: [number, number][]) {
 // ajuste pour bien inclure lille (nord) et nice (sud-est)
 const FRANCE_PATH = [
   "M 57.5 4.3",
-  "L 59.5 6.5", "L 62.0 8.0", "L 65.0 11.5", "L 68.1 15.2", "L 73.7 16.3",
-  "L 80.9 21.1", "L 84.7 21.4", "L 92.3 26.5", "L 98.1 26.6",
-  "L 93.5 41.2", "L 89.3 42.1", "L 88.2 48.1",
-  "L 83.2 55.9", "L 87.9 59.7", "L 89.6 66.0",
-  "L 86.6 77.6", "L 92.5 82.5", "L 91.5 83.5",
-  "L 84.1 88.2", "L 77.4 86.3", "L 72.4 85.2",
-  "L 64.0 89.8", "L 59.9 95.4",
-  "L 51.7 94.0", "L 44.5 91.6", "L 35.7 89.8",
-  "L 26.6 85.6", "L 30.4 81.5",
-  "L 30.6 72.2", "L 31.1 62.0", "L 31.4 56.2",
-  "L 26.2 52.6", "L 23.5 44.3",
-  "L 19.6 40.7", "L 14.7 39.1", "L 5.5 33.3",
-  "L 11.6 29.2", "L 17.0 28.1", "L 26.1 30.1",
-  "L 27.7 19.6", "L 31.1 19.2",
-  "L 40.1 21.3", "L 47.0 16.5", "L 50.5 7.6",
+  "L 59.5 6.5",
+  "L 62.0 8.0",
+  "L 65.0 11.5",
+  "L 68.1 15.2",
+  "L 73.7 16.3",
+  "L 80.9 21.1",
+  "L 84.7 21.4",
+  "L 92.3 26.5",
+  "L 98.1 26.6",
+  "L 93.5 41.2",
+  "L 89.3 42.1",
+  "L 88.2 48.1",
+  "L 83.2 55.9",
+  "L 87.9 59.7",
+  "L 89.6 66.0",
+  "L 86.6 77.6",
+  "L 92.5 82.5",
+  "L 91.5 83.5",
+  "L 84.1 88.2",
+  "L 77.4 86.3",
+  "L 72.4 85.2",
+  "L 64.0 89.8",
+  "L 59.9 95.4",
+  "L 51.7 94.0",
+  "L 44.5 91.6",
+  "L 35.7 89.8",
+  "L 26.6 85.6",
+  "L 30.4 81.5",
+  "L 30.6 72.2",
+  "L 31.1 62.0",
+  "L 31.4 56.2",
+  "L 26.2 52.6",
+  "L 23.5 44.3",
+  "L 19.6 40.7",
+  "L 14.7 39.1",
+  "L 5.5 33.3",
+  "L 11.6 29.2",
+  "L 17.0 28.1",
+  "L 26.1 30.1",
+  "L 27.7 19.6",
+  "L 31.1 19.2",
+  "L 40.1 21.3",
+  "L 47.0 16.5",
+  "L 50.5 7.6",
   "Z",
 ].join(" ");
 
 // frontieres internes entre les 13 regions metropolitaines
 // tracees a partir de coordonnees geographiques reelles [lon, lat]
 // clipees au contour de la france pour ne pas depasser
-const REGION_BORDERS = ([
-  // bretagne / normandie (frontiere est de la bretagne, partie nord)
-  // prolonge jusqu'a la cote nord
-  [[-1.5, 50.5], [-1.35, 48.35], [-1.2, 48.15]],
-  // bretagne / pays de la loire (frontiere est, partie sud vers la cote)
-  // prolonge jusqu'a la cote atlantique
-  [[-1.2, 48.15], [-1.7, 47.7], [-2.2, 47.1], [-3.0, 45.5]],
-  // normandie / pays de la loire (sud-ouest de la normandie)
-  [[-1.2, 48.15], [-0.5, 48.05], [0.0, 48.05]],
-  // normandie / centre-val de loire (sud de la normandie)
-  [[0.0, 48.05], [0.7, 48.3], [1.3, 48.5]],
-  // normandie / ile-de-france (frontiere est de la normandie)
-  [[1.3, 48.5], [1.5, 48.8], [1.7, 49.1]],
-  // normandie / hauts-de-france (vers la cote nord de la manche)
-  // prolonge bien au-dela du contour pour que le clip coupe proprement
-  [[1.7, 49.1], [1.5, 49.7], [1.3, 51.0]],
-  // hauts-de-france / ile-de-france (frontiere sud des hauts-de-france)
-  [[1.7, 49.1], [2.5, 49.15], [3.4, 49.1]],
-  // hauts-de-france / grand est (vers la frontiere belge)
-  // prolonge jusqu'a la frontiere nord-est
-  [[3.4, 49.1], [3.8, 49.5], [4.2, 50.0], [5.5, 51.5]],
-  // ile-de-france / grand est (frontiere est de l'idf)
-  [[3.4, 49.1], [3.35, 48.7], [3.2, 48.35]],
-  // ile-de-france / bourgogne-franche-comte (sud-est de l'idf)
-  [[3.2, 48.35], [3.0, 48.2], [2.8, 48.1]],
-  // ile-de-france / centre-val de loire (frontiere sud de l'idf)
-  [[2.8, 48.1], [2.0, 48.2], [1.3, 48.5]],
-  // grand est / bourgogne-franche-comte (vers la frontiere suisse)
-  // prolonge bien au-dela de la frontiere est
-  [[3.2, 48.35], [4.0, 47.8], [5.0, 47.4], [6.0, 47.3], [6.8, 47.5], [9.0, 47.5]],
-  // pays de la loire / centre-val de loire
-  [[0.0, 48.05], [0.2, 47.5], [0.3, 47.0], [0.3, 46.8]],
-  // pays de la loire / nouvelle-aquitaine (vers la cote atlantique)
-  // prolonge jusqu'a la cote ouest
-  [[0.3, 46.8], [-0.3, 46.5], [-0.8, 46.3], [-1.2, 46.15], [-2.5, 45.0]],
-  // centre-val de loire / bourgogne-franche-comte
-  [[2.8, 48.1], [2.9, 47.5], [3.0, 47.0], [3.0, 46.7]],
-  // centre-val de loire / auvergne-rhone-alpes
-  [[3.0, 46.7], [2.7, 46.5], [2.4, 46.3]],
-  // centre-val de loire / nouvelle-aquitaine
-  [[2.4, 46.3], [1.5, 46.3], [0.8, 46.5], [0.3, 46.8]],
-  // bourgogne-franche-comte / auvergne-rhone-alpes (vers la frontiere suisse)
-  // prolonge au-dela de la frontiere est
-  [[3.0, 46.7], [3.5, 46.3], [4.0, 46.0], [4.8, 46.0], [5.5, 46.2], [6.0, 46.3], [8.0, 46.5]],
-  // nouvelle-aquitaine / occitanie (des pyrenees vers le nord)
-  // prolonge jusque dans les pyrenees (hors contour)
-  [[-1.5, 41.5], [-0.5, 42.5], [0.0, 43.0], [0.5, 43.5], [1.0, 44.0], [1.5, 44.3], [2.0, 44.7], [2.2, 44.8]],
-  // nouvelle-aquitaine / auvergne-rhone-alpes
-  [[2.2, 44.8], [2.3, 45.3], [2.4, 45.8], [2.4, 46.3]],
-  // auvergne-rhone-alpes / occitanie (frontiere horizontale)
-  [[2.2, 44.8], [3.0, 44.5], [3.5, 44.3], [4.0, 44.2], [4.5, 44.2]],
-  // auvergne-rhone-alpes / paca (vers la frontiere italienne)
-  // prolonge au-dela de la frontiere est
-  [[4.5, 44.2], [5.0, 44.5], [5.5, 44.8], [6.0, 45.0], [6.5, 45.3], [8.5, 46.5]],
-  // occitanie / paca (vers la cote mediterranee)
-  // prolonge jusqu'a la mer
-  [[4.5, 44.2], [4.5, 43.8], [4.5, 43.5], [4.7, 42.0]],
-] as [number, number][][]).map(geoToPath);
+const REGION_BORDERS = (
+  [
+    // bretagne / normandie (frontiere est de la bretagne, partie nord)
+    // prolonge jusqu'a la cote nord
+    [
+      [-1.5, 50.5],
+      [-1.35, 48.35],
+      [-1.2, 48.15],
+    ],
+    // bretagne / pays de la loire (frontiere est, partie sud vers la cote)
+    // prolonge jusqu'a la cote atlantique
+    [
+      [-1.2, 48.15],
+      [-1.7, 47.7],
+      [-2.2, 47.1],
+      [-3.0, 45.5],
+    ],
+    // normandie / pays de la loire (sud-ouest de la normandie)
+    [
+      [-1.2, 48.15],
+      [-0.5, 48.05],
+      [0.0, 48.05],
+    ],
+    // normandie / centre-val de loire (sud de la normandie)
+    [
+      [0.0, 48.05],
+      [0.7, 48.3],
+      [1.3, 48.5],
+    ],
+    // normandie / ile-de-france (frontiere est de la normandie)
+    [
+      [1.3, 48.5],
+      [1.5, 48.8],
+      [1.7, 49.1],
+    ],
+    // normandie / hauts-de-france (vers la cote nord de la manche)
+    // prolonge bien au-dela du contour pour que le clip coupe proprement
+    [
+      [1.7, 49.1],
+      [1.5, 49.7],
+      [1.3, 51.0],
+    ],
+    // hauts-de-france / ile-de-france (frontiere sud des hauts-de-france)
+    [
+      [1.7, 49.1],
+      [2.5, 49.15],
+      [3.4, 49.1],
+    ],
+    // hauts-de-france / grand est (vers la frontiere belge)
+    // prolonge jusqu'a la frontiere nord-est
+    [
+      [3.4, 49.1],
+      [3.8, 49.5],
+      [4.2, 50.0],
+      [5.5, 51.5],
+    ],
+    // ile-de-france / grand est (frontiere est de l'idf)
+    [
+      [3.4, 49.1],
+      [3.35, 48.7],
+      [3.2, 48.35],
+    ],
+    // ile-de-france / bourgogne-franche-comte (sud-est de l'idf)
+    [
+      [3.2, 48.35],
+      [3.0, 48.2],
+      [2.8, 48.1],
+    ],
+    // ile-de-france / centre-val de loire (frontiere sud de l'idf)
+    [
+      [2.8, 48.1],
+      [2.0, 48.2],
+      [1.3, 48.5],
+    ],
+    // grand est / bourgogne-franche-comte (vers la frontiere suisse)
+    // prolonge bien au-dela de la frontiere est
+    [
+      [3.2, 48.35],
+      [4.0, 47.8],
+      [5.0, 47.4],
+      [6.0, 47.3],
+      [6.8, 47.5],
+      [9.0, 47.5],
+    ],
+    // pays de la loire / centre-val de loire
+    [
+      [0.0, 48.05],
+      [0.2, 47.5],
+      [0.3, 47.0],
+      [0.3, 46.8],
+    ],
+    // pays de la loire / nouvelle-aquitaine (vers la cote atlantique)
+    // prolonge jusqu'a la cote ouest
+    [
+      [0.3, 46.8],
+      [-0.3, 46.5],
+      [-0.8, 46.3],
+      [-1.2, 46.15],
+      [-2.5, 45.0],
+    ],
+    // centre-val de loire / bourgogne-franche-comte
+    [
+      [2.8, 48.1],
+      [2.9, 47.5],
+      [3.0, 47.0],
+      [3.0, 46.7],
+    ],
+    // centre-val de loire / auvergne-rhone-alpes
+    [
+      [3.0, 46.7],
+      [2.7, 46.5],
+      [2.4, 46.3],
+    ],
+    // centre-val de loire / nouvelle-aquitaine
+    [
+      [2.4, 46.3],
+      [1.5, 46.3],
+      [0.8, 46.5],
+      [0.3, 46.8],
+    ],
+    // bourgogne-franche-comte / auvergne-rhone-alpes (vers la frontiere suisse)
+    // prolonge au-dela de la frontiere est
+    [
+      [3.0, 46.7],
+      [3.5, 46.3],
+      [4.0, 46.0],
+      [4.8, 46.0],
+      [5.5, 46.2],
+      [6.0, 46.3],
+      [8.0, 46.5],
+    ],
+    // nouvelle-aquitaine / occitanie (des pyrenees vers le nord)
+    // prolonge jusque dans les pyrenees (hors contour)
+    [
+      [-1.5, 41.5],
+      [-0.5, 42.5],
+      [0.0, 43.0],
+      [0.5, 43.5],
+      [1.0, 44.0],
+      [1.5, 44.3],
+      [2.0, 44.7],
+      [2.2, 44.8],
+    ],
+    // nouvelle-aquitaine / auvergne-rhone-alpes
+    [
+      [2.2, 44.8],
+      [2.3, 45.3],
+      [2.4, 45.8],
+      [2.4, 46.3],
+    ],
+    // auvergne-rhone-alpes / occitanie (frontiere horizontale)
+    [
+      [2.2, 44.8],
+      [3.0, 44.5],
+      [3.5, 44.3],
+      [4.0, 44.2],
+      [4.5, 44.2],
+    ],
+    // auvergne-rhone-alpes / paca (vers la frontiere italienne)
+    // prolonge au-dela de la frontiere est
+    [
+      [4.5, 44.2],
+      [5.0, 44.5],
+      [5.5, 44.8],
+      [6.0, 45.0],
+      [6.5, 45.3],
+      [8.5, 46.5],
+    ],
+    // occitanie / paca (vers la cote mediterranee)
+    // prolonge jusqu'a la mer
+    [
+      [4.5, 44.2],
+      [4.5, 43.8],
+      [4.5, 43.5],
+      [4.7, 42.0],
+    ],
+  ] as [number, number][][]
+).map(geoToPath);
 
 interface CityWeatherData {
   temp: number;
@@ -267,12 +416,38 @@ export function FranceMap() {
               {isHovered && (
                 <>
                   <circle cx={x} cy={y} r="1.5" fill="none" stroke="#3b82f6" strokeWidth="0.3">
-                    <animate attributeName="r" from="1.5" to="4.5" dur="1.5s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="r"
+                      from="1.5"
+                      to="4.5"
+                      dur="1.5s"
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="opacity"
+                      from="0.6"
+                      to="0"
+                      dur="1.5s"
+                      repeatCount="indefinite"
+                    />
                   </circle>
                   <circle cx={x} cy={y} r="1" fill="none" stroke="#60a5fa" strokeWidth="0.2">
-                    <animate attributeName="r" from="1" to="3.5" dur="1.5s" begin="0.4s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" from="0.4" to="0" dur="1.5s" begin="0.4s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="r"
+                      from="1"
+                      to="3.5"
+                      dur="1.5s"
+                      begin="0.4s"
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="opacity"
+                      from="0.4"
+                      to="0"
+                      dur="1.5s"
+                      begin="0.4s"
+                      repeatCount="indefinite"
+                    />
                   </circle>
                 </>
               )}
