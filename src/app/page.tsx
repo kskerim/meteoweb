@@ -3,8 +3,7 @@
 // page d'accueil avec carte de france et recherche
 
 import { useState } from "react";
-import { MapPin, Loader2, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { MapPin, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Header,
@@ -89,12 +88,8 @@ export default function HomePage() {
       <Header />
 
       <main className="container mx-auto px-4 py-6">
-        {/* section recherche sticky */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="sticky top-16 z-40 bg-background/80 backdrop-blur-md py-4 -mx-4 px-4 border-b border-border/20"
-        >
+        {/* section recherche */}
+        <div className="sticky top-16 z-40 bg-background/80 py-4 -mx-4 px-4 border-b border-border/20">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto">
             <div className="relative w-full sm:flex-1">
               <SearchBar className="w-full" placeholder="Rechercher une ville..." />
@@ -116,15 +111,11 @@ export default function HomePage() {
           </div>
 
           {error && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-3 text-destructive text-sm text-center"
-            >
+            <p className="mt-3 text-destructive text-sm text-center">
               {error}
-            </motion.p>
+            </p>
           )}
-        </motion.div>
+        </div>
 
         {/* affichage meteo si disponible */}
         {weatherLoading || weather ? (
@@ -137,11 +128,7 @@ export default function HomePage() {
               </>
             ) : weather ? (
               <>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center justify-between"
-                >
+                <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-blue-400" />
                     Votre position
@@ -152,7 +139,7 @@ export default function HomePage() {
                     latitude={weather.location.latitude}
                     longitude={weather.location.longitude}
                   />
-                </motion.div>
+                </div>
 
                 <CurrentWeatherCard
                   current={weather.current}
@@ -170,35 +157,20 @@ export default function HomePage() {
           </div>
         ) : (
           /* carte de france par defaut */
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mt-8"
-          >
-            {/* titre accrocheur */}
+          <div className="mt-8">
+            {/* titre */}
             <div className="text-center mb-8">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
-              >
+              <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Explorez la meteo en France
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-muted-foreground flex items-center justify-center gap-2"
-              >
-                <Sparkles className="h-4 w-4 text-yellow-400" />
+              </h1>
+              <p className="text-muted-foreground">
                 Survolez une ville pour voir la temperature en direct
-              </motion.p>
+              </p>
             </div>
 
             {/* carte interactive */}
             <FranceMap />
-          </motion.div>
+          </div>
         )}
       </main>
     </>

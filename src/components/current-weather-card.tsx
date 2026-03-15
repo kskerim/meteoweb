@@ -138,16 +138,9 @@ export function CurrentWeatherCard({
               value={`${current.cloudCover}%`}
               color="slate"
             />
-            <StatCard
-              icon={<Sun className="h-5 w-5 text-yellow-400" />}
-              label="Index UV"
-              value={uvInfo.value.toString()}
-              subValue={uvInfo.level}
-              color="yellow"
-            />
           </div>
 
-          {/* lever/coucher du soleil - design ameliore */}
+          {/* lever/coucher du soleil et uv */}
           {today && (
             <div className="flex items-center justify-around p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 border border-amber-500/20">
               <div className="flex items-center gap-3">
@@ -158,6 +151,20 @@ export function CurrentWeatherCard({
                   <div className="text-xs text-slate-400 uppercase tracking-wide">Lever</div>
                   <div className="text-lg font-semibold text-amber-300">
                     {formatSunTime(today.sunrise, preferences.timeFormat, timezone)}
+                  </div>
+                </div>
+              </div>
+
+              <div className="h-8 w-px bg-slate-700" />
+
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-full bg-yellow-500/20">
+                  <Sun className="h-6 w-6 text-yellow-400" />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wide">UV</div>
+                  <div className="text-lg font-semibold text-yellow-300">
+                    {uvInfo.value} <span className="text-sm font-normal text-slate-400">{uvInfo.level}</span>
                   </div>
                 </div>
               </div>

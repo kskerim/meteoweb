@@ -93,10 +93,7 @@ export default function CityPage() {
           <div className="space-y-6 max-w-4xl mx-auto">
             <CurrentWeatherSkeleton />
             <HourlyForecastSkeleton />
-            <div className="grid md:grid-cols-2 gap-6">
-              <ChartSkeleton />
-              <ChartSkeleton />
-            </div>
+            <ChartSkeleton />
             <DailyForecastSkeleton />
           </div>
         ) : error ? (
